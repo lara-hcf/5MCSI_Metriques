@@ -37,17 +37,27 @@ def histogramme():
 
 @app.route("/commits/")
 def commits():
-    response = urlopen('https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits')
-    raw_content = response.read()
-    json_content = json.loads(raw_content.decode('utf-8'))
-    results = []
-    for list_element in json_content.get('main', []):
-        author = list_element.get('commit',{}.get('author'),{}.get('name'))
-        date = list_element.get('commit', {}.get('author'), {}.get('date'))
-        date_object = datetime.strptime(date, '%Y-%m-%dT%H:%M:%SZ')
-        minutes = date_object.minute
-        results.append({'minutes': minutes, 'nom':author})
-    return jsonify(results=results)
+    # Récupérer les données des commits depuis l'API GitHub
+    url = 'https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits'
+    response = requests.get(url)
+    commits_data = response.json()
+
+    # Extraire les informations nécessaires pour le graphe
+    dates = []
+    commit_counts = []
+
+    for commit in commits_data:
+        dates.append(commit['commit']['author']['date'])
+        commit_counts.append(1)
+
+    # Créer le graphe
+    trace = go.Scatter(x=dates, y=commit_counts, mode='lines', name='Commits')
+    layout = go.Layout(title='Commits over time', xaxis=dict(title='Date'), yaxis=dict(title='Number of Commits'))
+    fig = go.Figure(data=[trace], layout=layout)
+
+    # Convertir le graphe en code HTML
+    graph_html = fig.to_html(full_html=False)
+    return render_template("commit.html")
   
 if __name__ == "__main__":
   app.run(debug=True)
