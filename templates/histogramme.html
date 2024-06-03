@@ -6,34 +6,35 @@
     <script>
         google.charts.load('current', { packages: ['corechart'] });
         google.charts.setOnLoadCallback(drawBackgroundColor);
-       function drawBackgroundColor() {
-      function drawChart(data) {
-      // Convertir les données récupérées en un tableau utilisable par Google Charts
-      var dataTable = new google.visualization.DataTable();
-      dataTable.addColumn('string', 'Date');
-      dataTable.addColumn('number', 'Valeur');
-      data.results.forEach(entry => {
-        var date = new Date(entry.Jour * 1000);
-        dataTable.addRow([date.toLocaleDateString(), entry.temp]);
-      });
+        function drawBackgroundColor() {
+        function drawChart(data) {
+            // Convertir les données récupérées en un tableau utilisable par Google Charts
+            var dataTable = new google.visualization.DataTable();
+            dataTable.addColumn('string', 'Date');
+            dataTable.addColumn('number', 'Valeur');
+            data.results.forEach(entry => {
+                var date = new Date(entry.Jour * 1000);
+                dataTable.addRow([date.toLocaleDateString(), entry.temp]);
+            });
 
-        var options = {
-          title: 'Évolution des températures de la ville de Tawarano',
-          legend: { position: 'none' },
-          hAxis: { title: 'Jour' },
-          vAxis: { title: 'Température (°C)' }
-        };
+            var options = {
+            title: 'Évolution des températures de la ville de Tawarano',
+            legend: { position: 'none' },
+            hAxis: { title: 'Jour' },
+            vAxis: { title: 'Température (°C)' }
+            };
 
-        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-    chart.draw(dataTable, options);
-      }
+            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+            chart.draw(dataTable, options);
+        }
+        // Récupération de données depuis notre API /tawarano/
+        fetch('/tawarano/')
+        .then(response => response.json())
+        .then(data => {
+        drawChart(data);
+        })
     }
-  // Récupération de données depuis notre API /tawarano/
-  fetch('/tawarano/')
-    .then(response => response.json())
-    .then(data => {
-      drawChart(data);
-    })
+  
     </script>
   </head>
   <body>
