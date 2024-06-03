@@ -18,7 +18,7 @@
 
       function drawChart(apiData) {
         var dataArray = [['Jour', 'Température']];
-        results.forEach(item => {
+        data.results.forEach(item => {
           dataArray.push([new Date(item.Jour * 1000), item.temp]);
         });
 
