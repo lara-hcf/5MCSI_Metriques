@@ -2,6 +2,10 @@
 <head>
     <title>Contact</title>
     <meta charset="UTF-8">
+    <style>
+        body {background-color: pink;}
+        input { border-radius: 4;}
+    </style>
 </head>
 <body>
     <form>
@@ -10,6 +14,7 @@
         <label for="nom">Nom</label><br>
         <input type="text" id="nom" name="nom"><br>
         <label for="message">Donner un petit message !</label><br>
-        <input type="text" id="prenom" name="prenom"><br>
+        <textarea id="message" name="message" rows="4" cols="50"></textarea> <br>
+        <input type="submit" value="Envoyer">
     </form>
 </body>

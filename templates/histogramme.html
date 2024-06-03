@@ -24,10 +24,13 @@
 
       function drawChart(apiData) {
         // Transformer les données de l'API en format compatible avec Google Charts
-        var dataArray = [['Temperature', 'Temps']];
-        apiData.forEach(item => {
-          dataArray.push([item.dt_value, item.temp_day_value]);
-        });
+        var dataTable = new google.visualization.DataTable();
+        dataTable.addColumn('string', 'Date');
+        dataTable.addColumn('number', 'Valeur');
+        data.results.forEach(entry => {
+      var date = new Date(entry.Jour * 1000);
+      dataTable.addRow([date.toLocaleDateString(), entry.temp]);
+    });
 
         var data = google.visualization.arrayToDataTable(dataArray);
 
