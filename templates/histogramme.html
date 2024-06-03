@@ -16,13 +16,12 @@
           .catch(error => console.error('Erreur lors de la récupération des données :', error));
       }
 
-      function drawChart(apiData) {
+        var data = google.visualization.arrayToDataTable(dataArray);
+        function drawChart(apiData) {
         var dataArray = [['Jour', 'Température']];
         data.results.forEach(item => {
           dataArray.push([new Date(item.Jour * 1000), item.temp]);
         });
-
-        var data = google.visualization.arrayToDataTable(dataArray);
 
         var options = {
           title: 'Évolution des températures de la ville de Tawarano',
