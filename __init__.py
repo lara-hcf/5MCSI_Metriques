@@ -41,9 +41,9 @@ def commits():
     raw_content = response.read()
     json_content = json.loads(raw_content.decode('utf-8'))
     results = []
-    for list_element in json_content.get('commit', []):
-        author = list_element.get('author',{}.get('name'))
-        date = list_element.get('author', {}.get('date'))
+    for list_element in json_content.get('main', []):
+        author = list_element.get('commit',{}.get('author'),{}.get('name'))
+        date = list_element.get('commit', {}.get('author'), {}.get('date'))
         date_object = datetime.strptime(date, '%Y-%m-%dT%H:%M:%SZ')
         minutes = date_object.minute
         results.append({'minutes': minutes, 'nom':author})
