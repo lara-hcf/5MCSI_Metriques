@@ -16,7 +16,7 @@
           .catch(error => console.error('Erreur lors de la récupération des données :', error));
       }
 
-        var data = google.visualization.arrayToDataTable(dataArray);
+        var data = new google.visualization.arrayToDataTable(dataArray);
         function drawChart(apiData) {
         var dataArray = [['Jour', 'Température']];
         data.results.forEach(item => {
