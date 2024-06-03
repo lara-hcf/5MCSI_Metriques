@@ -12,21 +12,25 @@
         function drawBackgroundColor() {
         function drawChart(data) {
         // Convertir les données récupérées en un tableau utilisable par Google Charts
-        var dataTable = new google.visualization.DataTable();
+        var data = google.visualization.arrayToDataTable([
+        ["Date"]]);
+        };
+        /*var dataTable = new google.visualization.DataTable();
         dataTable.addColumn('string', 'Date');
         dataTable.addColumn('number', 'Valeur');
         data.results.forEach(entry => {
         var date = new Date(entry.Jour * 1000);
-        dataTable.addRow([date.toLocaleDateString(), entry.temp]);
-    });
+        dataTable.addRow([date.toLocaleDateString(), entry.temp]);*/
+    //});
     // Configurer les options du graphique en ligne
     var options = {
       title: 'Évolution des températures de la ville de Tawarano',
-      curveType: 'function',
-      legend: { position: 'bottom' }
+      legend: {position: 'none'},
+      hAxis: {title: 'Element'},
+      vAxis: {title: 'Density'}
     };
-    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-    chart.draw(dataTable, options);
+    var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
   }
   // Récupération de données depuis notre API /tawarano/
   fetch('/tawarano/')
