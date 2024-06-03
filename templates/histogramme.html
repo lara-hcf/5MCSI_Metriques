@@ -3,25 +3,19 @@
   <head>
     <title>Histogramme</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(fetchData);
-
-      function fetchData() {
-        fetch('/tawarano/')
-          .then(response => response.json())
-          .then(data => {
-            drawChart(data);
-          })
-          .catch(error => console.error('Erreur lors de la récupération des données :', error));
-      }
-
-        var data = new google.visualization.arrayToDataTable(dataArray);
-        function drawChart(apiData) {
-        var dataArray = [['Jour', 'Température']];
-        data.results.forEach(item => {
-          dataArray.push([new Date(item.Jour * 1000), item.temp]);
-        });
+    <script>
+        google.charts.load('current', { packages: ['corechart'] });
+        google.charts.setOnLoadCallback(drawBackgroundColor);
+       function drawBackgroundColor() {
+      function drawChart(data) {
+      // Convertir les données récupérées en un tableau utilisable par Google Charts
+      var dataTable = new google.visualization.DataTable();
+      dataTable.addColumn('string', 'Date');
+      dataTable.addColumn('number', 'Valeur');
+      data.results.forEach(entry => {
+        var date = new Date(entry.Jour * 1000);
+        dataTable.addRow([date.toLocaleDateString(), entry.temp]);
+      });
 
         var options = {
           title: 'Évolution des températures de la ville de Tawarano',
